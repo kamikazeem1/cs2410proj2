@@ -9,7 +9,8 @@ inputPath = rangen.generateSLETXT()
 matrix = []
 ps = []
 pattern = r'-?\d+\.?\d*'
-print(f"System of Linear Equations from {inputPath}\n")
+print("Task #1 - System of Linear Equations\n")
+print(f"Input from {inputPath}\n")
 with open(inputPath, 'r', newline='') as file:
     for row in file:
         # gets equation from row (ex. 4x + 1y + -3z + -3w = -55)

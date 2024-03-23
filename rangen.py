@@ -1,5 +1,4 @@
 import numpy as np
-import time
 import os
 
 def generateSLETXT():
@@ -24,10 +23,6 @@ def generateSLETXT():
         for i in range(num_equations):
             equation = " + ".join([f"{A[i][j]}{vars[j]}" for j in range(num_variables)])
             outfile.write(f"{equation} = {b[i]}\n")
-
-        currentTime = time.localtime()
-        formattedTime = time.strftime("%m/%d/%Y %H:%M:%S", currentTime)
-        # outfile.write(f"\nGenerated on {formattedTime}")
 
     outfile.close()
     return output_file_path
