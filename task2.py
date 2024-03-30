@@ -3,27 +3,38 @@
 import pandas as pd
 from pathlib import Path
 
+# gets file path in case code run not in immediate directory
 scriptDirectory = Path(__file__).resolve().parent
 inputFilename = "BostonHousing.csv"
 inputFilePath = scriptDirectory / inputFilename
+
 # pandas data frame, read from BostonHousing.csv
 df = pd.read_csv(inputFilePath)
-# medv takes items only from the 'medv' column
+# medv takes items only from the 'medv' column, Series obj
 medv = df['medv']
 
 def max(data) -> float:
+    '''
+    Gets the largest value in dataset column
+    '''
     max = data[0]
     for i in data:
         max = i if i > max else max
     return max
 
 def min(data) -> float:
+    '''
+    Gets the minimum value in dataset column
+    '''
     min = data[0]
     for i in data:
         min = i if i < min else min
     return min
 
 def range(data) -> float:
+    '''
+    Gets the range of dataset column
+    '''
     min = data[0]
     max = data[0]
     for i in data:
@@ -33,6 +44,9 @@ def range(data) -> float:
 
 
 def mean(data) -> float:
+    '''
+    Gets the average value from dataset column
+    '''
     total = 0
     dataLen = len(data)
     for i in data:
@@ -40,6 +54,9 @@ def mean(data) -> float:
     return total / dataLen
 
 def mode(data) -> list:
+    '''
+    Gets the most common value(s) from dataset column
+    '''
     frequency = {}
     for i in data:
         if i in frequency.keys():
@@ -52,6 +69,9 @@ def mode(data) -> list:
     return mostCommonKeys
 
 def variance(data) -> float:
+    '''
+    Calculates variance from dataset column
+    '''
     avg = mean(data)
     n = len(data)
     numerator = 0
@@ -60,56 +80,68 @@ def variance(data) -> float:
     return numerator / n
 
 def standardDeviation(data) -> float:
+    '''
+    Calculates the standard deviation from dataset column
+    '''
     var = variance(data)
     return var ** .5
 
 def mergesort(data) -> list:
+    '''
+    Sorts dataset column from least to greatest
+    '''
     arr = list(data)
     if len(arr) > 1:
-        mid = len(arr) // 2
-        left_half = arr[:mid]
-        right_half = arr[mid:]
+        m = len(arr) // 2
+        left = arr[:m]
+        right = arr[m:]
 
-        left_half = mergesort(left_half)  # Recursively sort the left half
-        right_half = mergesort(right_half)  # Recursively sort the right half
+        left = mergesort(left)  # Recursively sort the left half
+        right = mergesort(right)  # Recursively sort the right half
 
         # Merge the sorted halves
         i = j = k = 0
-        while i < len(left_half) and j < len(right_half):
-            if left_half[i] < right_half[j]:
-                arr[k] = left_half[i]
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                arr[k] = left[i]
                 i += 1
             else:
-                arr[k] = right_half[j]
+                arr[k] = right[j]
                 j += 1
             k += 1
 
-        # Check for any remaining elements in left_half
-        while i < len(left_half):
-            arr[k] = left_half[i]
+        # Check for any remaining elements in left
+        while i < len(left):
+            arr[k] = left[i]
             i += 1
             k += 1
 
-        # Check for any remaining elements in right_half
-        while j < len(right_half):
-            arr[k] = right_half[j]
+        # Check for any remaining elements in right
+        while j < len(right):
+            arr[k] = right[j]
             j += 1
             k += 1
 
     return arr
 
 def percentile1(data, perc: float):
-    # greater than
+    '''
+    Calculates percentile using Method 1: Greater than
+    '''
     index = int(perc * len(data)) + 1
     return data[index]
 
 def percentile2(data, perc: float):
-    # greater than or equal to
+    '''
+    Calculates percentile using Method 2: Greater than or Equal to
+    '''
     index = int(perc * len(data)) + 1
     return data[index-1]
 
 def percentile3(data, perc: float):
-    # using an interpolation approach
+    '''
+    Calculates percentile using Method 3: Using an Interpolation Approach
+    '''
     rank = perc * (len(data) + 1)
     if rank == int(rank):
         return data[rank-1]
@@ -119,6 +151,7 @@ def percentile3(data, perc: float):
         adder = (data[highIndex] - data[lowIndex]) * perc
         return data[lowIndex] + adder
 
+# main method
 def main():
     print("Task #2 - Statistics\n")
     print(f"max: {max(medv)}")
